@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 15:51:47 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/20 18:05:18 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/21 09:13:03 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ t_list	*look_for_cur(t_list *head)
 	return (out);
 }
 
-void	do_cmd(char c[8], t_list *head, struct termios *old)
+void	do_cmd(char c[8], t_list **head, struct termios *old)
 {
 	t_list	*cur;
 
-	cur = look_for_cur(head);
+	cur = look_for_cur(*head);
 	if ((c[0] == 27 && c[1] == 91 && c[2] == 51 && c[3] == 126)
 			|| (c[0] == 127 && !c[1] && !c[2]))
-		node_out(&cur, &head);//del or del +++++ pb head addresse is copy
+		node_out(&cur, &(*head));//del or del +++++ pb head addresse is copy
 	else if ((c[0] == 27 && c[1] == 91 && c[2] == 68) ||
 			(c[0] == 27 && c[1] == 91 && c[2] == 65))
 		go_prev(cur);//left or up
@@ -52,7 +52,9 @@ void	do_cmd(char c[8], t_list *head, struct termios *old)
 	else if (c[0] == 32 && !c[1] && !c[2])
 		select_arg(cur);//space
 	else if (c[0] == 10 && !c[1] && !c[2])
-		do_bye(head, old);//return
+		do_bye(*head, old);//return
+	if (!*head)
+		do_bye(NULL, old);
 }
 
 void	snoop_key(t_list *src, struct termios *old)
@@ -62,11 +64,11 @@ void	snoop_key(t_list *src, struct termios *old)
 
 	if (src)
 		head = src;
-	print_list(head);
 	ft_bzero(buf, 8);
+	print_list(head);
 	while (read(0, buf, 8) != 0)
 	{
-		do_cmd(buf, head, old);
+		do_cmd(buf, &head, old);
 		ft_bzero(buf, 8);
 		print_list(head);
 	}

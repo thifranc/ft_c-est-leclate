@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/18 09:37:22 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/20 17:57:10 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/21 09:04:18 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	print_list(t_list *head)
 	whipe_me();
 	get_data(data, head);
 	if (data[2] >= data[1] || data[0] < data[4])
-		write(1, "Window too small !\n", 19);
+		return (ft_putstr("Window too small !\n"));
 	tmp = head;
 	max = 0;
 	while (data[3])

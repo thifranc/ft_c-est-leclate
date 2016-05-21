@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/15 13:30:32 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/20 18:05:16 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/21 09:15:24 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "libft/libft.h"
 
 # define SELECTED 1
+# define INIT 666
 
 typedef struct		s_list
 {
@@ -44,7 +45,7 @@ void	snoop_signal(void);
 
 void	set_termios(struct termios *old);
 void	snoop_key(t_list *src, struct termios *old);
-void	do_cmd(char c[8], t_list *head, struct termios *old);
+void	do_cmd(char c[8], t_list **head, struct termios *old);
 
 void	go_prev(t_list *cur);
 void	select_arg(t_list *cur);

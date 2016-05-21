@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 13:15:12 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/20 18:07:40 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/21 11:21:24 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,25 @@
 
 void	do_bye(t_list *head, struct termios *old)
 {
+	t_list	*tmp;
+	int		size;
+
 	if (head)
+	{
+		tmp = head;
+		size = crl_list_size(tmp);
+		while (size)
+		{
+			if (tmp->cur)
+				tmp->cur = 0;
+			tmp = tmp->next;
+			size--;
+		}
 		print_list(head);
+	}
+	else
+		whipe_me();
+	use_termcap("ve");
 	tcsetattr(0, TCSANOW, old);//simple ou double pointeur ???
 	exit(-1);
 }
@@ -35,16 +52,32 @@ void	wild_cases(int args, struct termios *back)
 void	signalhandle(int sig)
 {
 	static struct termios	backup;
+	char					stop[2];
 
-	if (sig == 0)
+	if (sig == INIT)
 		tcgetattr(0, &backup);
-	if (sig == SIGCONT)
+	else if (sig == SIGCONT)
 	{
 		set_termios(&backup);
+		signal(SIGTSTP, signalhandle);
 		snoop_key(NULL, &backup);
 	}
-	if (sig == SIGWINCH)
+	else if (sig == SIGWINCH)
+	{
+		whipe_me();
+		dprintf(1, "lol\n");
 		snoop_key(NULL, &backup);
+	}
+	else if (sig == SIGTSTP)
+	{
+		whipe_me();
+		stop[0] = backup.c_cc[VSUSP];
+		stop[1] = 0;
+		use_termcap("ve");
+		tcsetattr(0, TCSANOW, &backup);//simple ou double pointeur ???
+		signal(SIGTSTP, SIG_DFL);
+		ioctl(0, TIOCSTI, stop);
+	}
 	else
 		do_bye(NULL, &backup);
 }
@@ -56,6 +89,7 @@ void	snoop_signal(void)
 	signal(SIGQUIT, signalhandle);
 	signal(SIGWINCH, signalhandle);
 	signal(SIGCONT, signalhandle);
+	signal(SIGTSTP  , signalhandle);
 }
 
 int		main(int ac, char **av)
@@ -65,8 +99,9 @@ int		main(int ac, char **av)
 
 	wild_cases(ac, &old);
 	head = arg_in_list(ac, av);
-	signalhandle(0);
+	signalhandle(INIT);
 	snoop_signal();
+	print_list(head);
 	set_termios(&old);
 	snoop_key(head, &old);//pb adress ptr
 }

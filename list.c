@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 15:49:51 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/20 15:46:37 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/21 09:09:06 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	node_out(t_list **a, t_list **head)
 	t_list	*tmp;
 
 	if ((*a) == (*a)->next)
-		delnode(&(*a));
+		delnode(&(*head));
 	else
 	{
 		(*a)->prev->next = (*a)->next;
@@ -58,7 +58,7 @@ void	node_out(t_list **a, t_list **head)
 		tmp = *a;
 		if (*a == *head)
 			(*head) = (*head)->next;
-		(*a) = (*a)->next;
+		go_next(*a);
 		delnode(&tmp);
 	}
 }
