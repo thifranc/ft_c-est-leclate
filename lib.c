@@ -6,19 +6,11 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 15:42:06 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/22 00:07:46 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/22 00:31:03 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "all.h"
-
-void	use_termcap(char *cmd)
-{
-	char	*out;
-
-	out = tgetstr(cmd, NULL);
-	ft_putstr(out);
-}
 
 void	color_with_type(mode_t st_mode)
 {
@@ -49,6 +41,14 @@ void	whipe_me(void)
 	use_termcap("cl");
 	use_termcap("ho");
 	use_termcap("vi");
+}
+
+void	use_termcap(char *cmd)
+{
+	char	*out;
+
+	out = tgetstr(cmd, NULL);
+	ft_putstr(out);
 }
 
 t_list	*arg_in_list(int ac, char **av)

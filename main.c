@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 13:15:12 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/21 23:33:50 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/22 00:35:00 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int		main(int ac, char **av)
 	wild_cases(ac, &old);
 	head = arg_in_list(ac, av);
 	signalhandle(INIT);
-	print_list(head);
 	set_termios(&old);
 	snoop_signal();
 	snoop_key(head, &old);
