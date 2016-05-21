@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/15 13:30:32 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/21 14:03:23 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/22 00:13:00 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,16 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <sys/ioctl.h>
+# include <sys/stat.h>
 # include "libft/libft.h"
+
+# define RED     "\x1b[31m"
+# define GREEN   "\x1b[32m"
+# define YELLOW  "\x1b[33m"
+# define BLUE    "\x1b[34m"
+# define MAGENTA "\x1b[35m"
+# define CYAN    "\x1b[36m"
+# define RESET   "\x1b[0m"
 
 # define SELECTED 1
 # define INIT 666
@@ -46,6 +55,7 @@ void	snoop_signal(void);
 void	set_termios(struct termios *old);
 void	snoop_key(t_list *src, struct termios *old);
 void	do_cmd(char c[8], t_list **head, struct termios *old);
+void	return_list(t_list *head);
 
 void	go_prev(t_list *cur);
 void	select_arg(t_list *cur);
@@ -54,8 +64,9 @@ void	do_bye(t_list *head, struct termios *old);
 
 void	get_data(int data[5], t_list *head);
 void	print_list(t_list *head);
-void	print_elem(t_list elem);
+void	print_elem(t_list elem, int type);
 int		width_to_line(t_list *head);
+void	color_with_type(mode_t stats);
 
 void	add_node(t_list **list, char *data);
 t_list	*arg_in_list(int ac, char **av);

@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 13:15:12 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/21 14:18:19 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/21 23:33:50 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	do_bye(t_list *head, struct termios *old)
 			tmp = tmp->next;
 			size--;
 		}
-		print_list(head);
+		return_list(head);
 	}
 	else
 		whipe_me();
 	use_termcap("ve");
-	tcsetattr(0, TCSANOW, old);//simple ou double pointeur ???
+	tcsetattr(0, TCSANOW, old);
 	exit(-1);
 }
 
@@ -85,7 +85,7 @@ void	snoop_signal(void)
 	signal(SIGQUIT, signalhandle);
 	signal(SIGWINCH, signalhandle);
 	signal(SIGCONT, signalhandle);
-	signal(SIGTSTP  , signalhandle);
+	signal(SIGTSTP, signalhandle);
 }
 
 int		main(int ac, char **av)
@@ -99,5 +99,5 @@ int		main(int ac, char **av)
 	print_list(head);
 	set_termios(&old);
 	snoop_signal();
-	snoop_key(head, &old);//pb adress ptr
+	snoop_key(head, &old);
 }

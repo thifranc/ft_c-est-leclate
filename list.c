@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 15:49:51 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/21 09:09:06 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/22 00:17:05 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,6 @@ void	delnode(t_list **tmp)
 	*tmp = NULL;
 }
 
-void	node_out(t_list **a, t_list **head)
-{
-	t_list	*tmp;
-
-	if ((*a) == (*a)->next)
-		delnode(&(*head));
-	else
-	{
-		(*a)->prev->next = (*a)->next;
-		(*a)->next->prev = (*a)->prev;
-		tmp = *a;
-		if (*a == *head)
-			(*head) = (*head)->next;
-		go_next(*a);
-		delnode(&tmp);
-	}
-}
-
 void	circle_list(t_list *list)
 {
 	t_list	*tmp;
@@ -95,4 +77,3 @@ int		crl_list_size(t_list *head)
 	}
 	return (out);
 }
-

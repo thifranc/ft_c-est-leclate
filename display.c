@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/18 09:37:22 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/21 14:03:13 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/22 00:17:12 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,24 @@ int		width_to_line(t_list *head)
 	return (ct + 1);
 }
 
+void	return_list(t_list *head)
+{
+	t_list	*tmp;
+	int		size;
+
+	size = crl_list_size(head);
+	whipe_me();
+	tmp = head;
+	while (size)
+	{
+		print_elem(*tmp, 0);
+		tmp = tmp->next;
+		size--;
+		if (size)
+			write(1, " ", 1);
+	}
+}
+
 void	get_data(int data[5], t_list *head)
 {
 	t_list			*tmp;
@@ -68,18 +86,18 @@ void	get_data(int data[5], t_list *head)
 	}
 }
 
-void	print_elem(t_list elem)
+void	print_elem(t_list elem, int type)
 {
-	//put color related to file type with stat (if fail then isn't file)
+	struct stat	stats;
+
+	if (type && lstat(elem.data, &stats) != -1)
+		color_with_type(stats.st_mode);
 	if (elem.opt)
-		ft_putstr("\033[7m");//termcap mr
+		use_termcap("mr");
 	if (elem.cur)
 		use_termcap("us");
 	ft_putstr(elem.data);
-	if (elem.opt)//termcap me
-		ft_putstr("\033[m");
-	if (elem.cur)
-		use_termcap("ue");
+	use_termcap("me");
 }
 
 void	print_list(t_list *head)
@@ -103,7 +121,7 @@ void	print_list(t_list *head)
 				write(1, "\n", 1);
 			max - data[0] == 1 ? max *= 0 : (max = ft_strlen(tmp->data) + 1);
 		}
-		print_elem(*tmp);
+		print_elem(*tmp, 1);
 		tmp = tmp->next;
 		data[3]--;
 		if (data[3] && max - data[0] != 1)

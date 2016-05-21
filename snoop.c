@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 15:51:47 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/21 14:17:51 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/22 00:17:02 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	set_termios(struct termios *old)
 {
 	struct termios	new;
-	
+
 	new = *old;
 	new.c_lflag &= ~(ICANON | ECHO);
 	new.c_cc[VMIN] = 1;
@@ -33,6 +33,24 @@ t_list	*look_for_cur(t_list *head)
 	return (out);
 }
 
+void	node_out(t_list **a, t_list **head)
+{
+	t_list	*tmp;
+
+	if ((*a) == (*a)->next)
+		delnode(&(*head));
+	else
+	{
+		(*a)->prev->next = (*a)->next;
+		(*a)->next->prev = (*a)->prev;
+		tmp = *a;
+		if (*a == *head)
+			(*head) = (*head)->next;
+		go_next(*a);
+		delnode(&tmp);
+	}
+}
+
 void	do_cmd(char c[8], t_list **head, struct termios *old)
 {
 	t_list	*cur;
@@ -40,19 +58,19 @@ void	do_cmd(char c[8], t_list **head, struct termios *old)
 	cur = look_for_cur(*head);
 	if ((c[0] == 27 && c[1] == 91 && c[2] == 51 && c[3] == 126)
 			|| (c[0] == 127 && !c[1] && !c[2]))
-		node_out(&cur, &(*head));//del or del +++++ pb head addresse is copy
+		node_out(&cur, &(*head));
 	else if ((c[0] == 27 && c[1] == 91 && c[2] == 68) ||
 			(c[0] == 27 && c[1] == 91 && c[2] == 65))
-		go_prev(cur);//left or up
+		go_prev(cur);
 	else if ((c[0] == 27 && c[1] == 91 && c[2] == 67) ||
 			(c[0] == 27 && c[1] == 91 && c[2] == 66))
-		go_next(cur);//right or down
+		go_next(cur);
 	else if (c[0] == 27 && !c[1] && !c[2])
-		do_bye(NULL, old);//echap
+		do_bye(NULL, old);
 	else if (c[0] == 32 && !c[1] && !c[2])
-		select_arg(cur);//space
+		select_arg(cur);
 	else if (c[0] == 10 && !c[1] && !c[2])
-		do_bye(*head, old);//return
+		do_bye(*head, old);
 	if (!*head)
 		do_bye(NULL, old);
 }
