@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 15:51:47 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/21 09:13:03 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/21 14:17:51 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	snoop_key(t_list *src, struct termios *old)
 
 	if (src)
 		head = src;
+	if (!src)
+		return (print_list(head));
 	ft_bzero(buf, 8);
 	print_list(head);
 	while (read(0, buf, 8) != 0)

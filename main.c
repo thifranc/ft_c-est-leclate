@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 13:15:12 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/21 11:21:24 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/21 14:18:19 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,19 @@ void	signalhandle(int sig)
 		tcgetattr(0, &backup);
 	else if (sig == SIGCONT)
 	{
-		set_termios(&backup);
 		signal(SIGTSTP, signalhandle);
+		set_termios(&backup);
+		signal(SIGCONT, signalhandle);
 		snoop_key(NULL, &backup);
 	}
 	else if (sig == SIGWINCH)
-	{
-		whipe_me();
-		dprintf(1, "lol\n");
 		snoop_key(NULL, &backup);
-	}
 	else if (sig == SIGTSTP)
 	{
-		whipe_me();
 		stop[0] = backup.c_cc[VSUSP];
 		stop[1] = 0;
 		use_termcap("ve");
-		tcsetattr(0, TCSANOW, &backup);//simple ou double pointeur ???
+		tcsetattr(0, TCSANOW, &backup);
 		signal(SIGTSTP, SIG_DFL);
 		ioctl(0, TIOCSTI, stop);
 	}
@@ -100,8 +96,8 @@ int		main(int ac, char **av)
 	wild_cases(ac, &old);
 	head = arg_in_list(ac, av);
 	signalhandle(INIT);
-	snoop_signal();
 	print_list(head);
 	set_termios(&old);
+	snoop_signal();
 	snoop_key(head, &old);//pb adress ptr
 }
