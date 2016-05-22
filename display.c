@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/18 09:37:22 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/22 00:17:12 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/22 17:19:48 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,12 @@ void	return_list(t_list *head)
 	tmp = head;
 	while (size)
 	{
-		print_elem(*tmp, 0);
-		tmp = tmp->next;
-		size--;
-		if (size)
+		if (tmp->opt & SELECTED)
+			print_elem(*tmp, 0);
+		if (tmp->opt & SELECTED)
 			write(1, " ", 1);
+		size--;
+		tmp = tmp->next;
 	}
 }
 
