@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 15:49:51 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/22 00:17:05 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/24 17:57:19 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_list	*new_node(char *data)
 	new->next = NULL;
 	new->prev = NULL;
 	new->opt = 0;
+	new->cur = 0;
 	new->data = ft_strdup(data);
 	return (new);
 }

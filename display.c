@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/18 09:37:22 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/22 17:19:48 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/27 16:37:11 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ void	print_elem(t_list elem, int type)
 
 	if (type && lstat(elem.data, &stats) != -1)
 		color_with_type(stats.st_mode);
-	if (elem.opt)
+	if (type && elem.opt)
 		use_termcap("mr");
-	if (elem.cur)
+	if (type && elem.cur)
 		use_termcap("us");
 	ft_putstr(elem.data);
 	use_termcap("me");
