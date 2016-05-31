@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 13:15:12 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/24 17:56:40 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/31 10:45:21 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	signalhandle(int sig)
 void	snoop_signal(void)
 {
 	signal(SIGINT, signalhandle);
-	signal(SIGKILL, signalhandle);
+	signal(SIGTERM, signalhandle);
 	signal(SIGQUIT, signalhandle);
 	signal(SIGWINCH, signalhandle);
 	signal(SIGCONT, signalhandle);
